@@ -1,0 +1,409 @@
+﻿server=WIN-ANJTH7VKK6N;database=CookiesModule;Trusted_Connection=true,MultipleActiveResultSets=True
+ConnectionStr": "Server=DESKTOP-31MB9N8\\SQLEXPRESS;Database=Cookies;Trusted_Connection=True;MultipleActiveResultSets=True"
+
+
+CREATE TABLE [dbo].[Departments](
+	[d_id] [int] IDENTITY(1,1) NOT NULL,
+	[d_description] [varchar](50) NULL,
+	[d_active_yn] [varchar](1) NULL,
+	[d_cre_by] [int] NULL,
+	[d_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED 
+(
+	[d_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[Documents](
+	[dc_id] [int] IDENTITY(1,1) NOT NULL,
+	[dc_description] [varchar](25) NULL,
+	[dc_workflow_id] [int] NULL,
+	[dc_active_yn] [varchar](1) NULL,
+	[dc_cre_by] [int] NULL,
+	[dc_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Documents] PRIMARY KEY CLUSTERED 
+(
+	[dc_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+old
+---
+CREATE TABLE [dbo].[CookiesRequest](
+	[rq_id] [int] IDENTITY(1,1) NOT NULL,
+	[rq_doc_id] [int] NULL,
+	[rq_workflow_id] [int] NULL,
+	[rq_description] [varchar](max) NULL,
+	[rq_dep_id] [int] NULL,
+	[rq_start_time] [datetime] NOT NULL,
+	[rq_no_of_hours] [int] NOT NULL,
+	[rq_remarks] [varchar](max) NULL,
+	[rq_status] [int] NULL,
+	[rq_active_yn] [varchar](1) NULL,
+	[rq_cre_by] [int] NULL,
+	[rq_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Request] PRIMARY KEY CLUSTERED 
+(
+	[rq_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+USE [Cookies]
+GO
+
+/****** Object:  Table [dbo].[Roles]    Script Date: 5/19/2020 9:02:39 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Roles](
+	[r_id] [int] IDENTITY(1,1) NOT NULL,
+	[r_description] [varchar](50) NULL,
+	[r_active_yn] [varchar](1) NULL,
+	[r_cre_by] [int] NULL,
+	[r_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
+(
+	[r_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [Cookies]
+GO
+
+/****** Object:  Table [dbo].[Roles]    Script Date: 5/19/2020 9:02:39 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Roles](
+	[r_id] [int] IDENTITY(1,1) NOT NULL,
+	[r_description] [varchar](50) NULL,
+	[r_active_yn] [varchar](1) NULL,
+	[r_cre_by] [int] NULL,
+	[r_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
+(
+	[r_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[Users](
+	[u_id] [int] IDENTITY(1,1) NOT NULL,
+	[u_full_name] [varchar](50) NOT NULL,
+	[u_name] [varchar](50) NOT NULL,
+	[u_password] [varchar](50) NOT NULL,
+	[u_role_id] [int] NOT NULL,
+	[u_dep_id] [int] NOT NULL,
+	[u_is_admin] [varchar](1) NULL,
+	[u_active_yn] [varchar](1) NULL,
+	[u_cre_by] [int] NULL,
+	[u_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+(
+	[u_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [Cookies]
+GO
+
+/****** Object:  Table [dbo].[WorkflowDetails]    Script Date: 5/19/2020 9:03:16 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[WorkflowDetails](
+	[wd_id] [int] IDENTITY(1,1) NOT NULL,
+	[wd_workflow_id] [int] NULL,
+	[wd_role_id] [int] NOT NULL,
+	[wd_priority] [int] NOT NULL,
+	[wd_active_yn] [varchar](1) NULL,
+	[wd_cre_by] [int] NULL,
+	[wd_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Workflow_Detail] PRIMARY KEY CLUSTERED 
+(
+	[wd_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+USE [Cookies]
+GO
+
+/****** Object:  Table [dbo].[Workflows]    Script Date: 5/19/2020 9:03:28 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Workflows](
+	[w_id] [int] IDENTITY(1,1) NOT NULL,
+	[w_description] [varchar](50) NULL,
+	[w_active_yn] [varchar](1) NULL,
+	[w_cre_by] [int] NULL,
+	[w_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Workflow] PRIMARY KEY CLUSTERED 
+(
+	[w_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+
+CREATE TABLE [dbo].[WorkflowTrackers](
+	[wt_id] [int] IDENTITY(1,1) NOT NULL,
+	[wt_fun_doc_id] [int] NULL,
+	[wt_doc_id] [int] NULL,
+	[wt_workflow_id] [int] NULL,
+	[wt_role_id] [int] NULL,
+	[wt_role_description] [varchar](40) NULL,
+	[wt_status] [int] NULL,
+	[wt_status_to] [int] NULL,
+	[wt_assign_role] [int] NULL,
+	[wt_assigned_role_name] [varchar](40) NULL,
+	[wt_remarks] [varchar](max) NULL,
+	[wt_approve_status] [varchar](20) NULL,
+	[wt_cre_by] [int] NULL,
+	[wt_cre_by_name] [varchar](250) NULL,
+	[wt_cre_date] [datetime] NULL,
+ CONSTRAINT [PK_Workflow_tracker] PRIMARY KEY CLUSTERED 
+(
+	[wt_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+USE [Cookies]
+GO
+
+
+//for first user   username :admin password:admin
+INSERT INTO [dbo].[Users]
+           ([u_full_name]
+           ,[u_name]
+           ,[u_password]
+           ,[u_role_id]
+           ,[u_dep_id]
+           ,[u_is_admin]
+           ,[u_active_yn]
+           ,[u_cre_by]
+           ,[u_cre_date])
+     VALUES
+           ('1','admin','admin','E0NKGG2SGlAes+qQ8pwwhg==','1',	'1','Y',,'Y','1','2020-01-01 00:00:00.000')
+GO
+
+
+
+CREATE TABLE [dbo].[RoleMenus](
+	[rm_id] [int] IDENTITY(1,1) NOT NULL,
+	[rm_role_id] [int] NULL,
+	[rm_menu_id] [int] null,
+	[rm_active_yn] [varchar](1) NULL,
+	[rm_cre_by] [int] NULL,
+	[rm_cre_date] [datetime] NULL)
+
+CREATE TABLE [dbo].[Menus](
+	[m_id] [int] IDENTITY(1,1) NOT NULL,
+	[m_description] [varchar](50) Not NULL,
+	[m_desc_to_show][varchar](50) not Null,
+	[m_parrent_id][int] null,
+	[m_link] [varchar](250) null,
+	[m_type] [varchar](25) null,
+	[m_active_yn] [varchar](1) NULL,
+	[m_cre_by] [int] NULL,
+	[m_cre_date] [datetime] NULL)
+
+CREATE TABLE [dbo].[Holds](
+	[h_id] [int] IDENTITY(1,1) NOT NULL,
+	[h_fun_doc_id] [int] NULL,
+	[h_doc_id] [int] NULL,
+	[h_reasons] [varchar](250) NULL,
+	[h_replay] [varchar](250) NULL,
+	[h_replay_by] [int] NULL,
+	[h_replay_date] [datetime] NULL,
+	[h_type] [varchar](20) NULL,
+	[h_cre_by] [int] NULL,
+	[h_cre_date] [datetime] NULL
+) 
+
+--New
+
+CREATE TABLE [dbo].[CookiesRequest](
+	[rq_id] [int] IDENTITY(1,1) NOT NULL,
+	[rq_doc_id] [int] NULL,
+	[rq_workflow_id] [int] NULL,
+	[rq_cre_for] [int] NULL,
+	[rq_description] [varchar](50) NOT NULL,
+	[rq_dep_id] [int] NULL,
+	[rq_start_time] [datetime] NOT NULL,
+	[rq_end_time] [datetime] NULL,
+	[rq_no_of_hours] [int] NOT NULL,
+	[rq_remarks] [varchar](max) NULL,
+	[rq_status] [int] NULL,
+	[rq_hold_by] [int] NULL,
+	[rq_hold_date] [datetime] NULL,
+	[rq_hold_yn] [varchar](1) NULL,
+	[rq_active_yn] [varchar](1) NULL,
+	[rq_cre_by] [int] NULL,
+	[rq_cre_date] [datetime] NULL)
+
+
+	
+
+	
+CREATE   FUNCTION [dbo].[fn_GetTotalWorkingHours]
+(
+    @DateFrom Datetime,
+    @DateTo Datetime
+)
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+ 
+DECLARE @TotalWorkDays INT, @TotalTimeDiff DECIMAL(18, 2)
+ 
+SET @TotalWorkDays = DATEDIFF(DAY, @DateFrom, @DateTo);
+SET @TotalTimeDiff =
+(
+    SELECT DATEDIFF(SECOND,
+                   (
+                       SELECT CONVERT(TIME, @DateFrom)
+                   ),
+                   (
+                       SELECT CONVERT(TIME, @DateTo)
+                   )) / 3600.0
+);
+ 
+RETURN  (SELECT(@TotalWorkDays * 24.00) + @TotalTimeDiff)
+ 
+END
+GO
+
+---
+
+
+CREATE   FUNCTION [dbo].[get_Time_Diffence](
+    @from DateTime,@to DateTime,@type varchar(1)
+)
+RETURNS int
+AS 
+BEGIN
+	DECLARE @result int;
+	DECLARE @DateDif DateTime;
+	set @DateDif = @to-@from;
+	if(@type='D')
+		set @result=datediff(dd,0,@DateDif);
+		
+	else if (@type='H') 
+	  set @result=datepart(hour,@DateDif);
+	else if(@type='M')
+	  set @result=datepart(minute,@DateDif);
+	else if (@type='S')
+	  set @result=datepart(second,@DateDif);
+	else return 0;
+	  return @result;
+END;
+GO
+
+---
+
+CREATE FUNCTION [dbo].[get_workflow_min_max](@id int,
+    @type varchar(3)
+)
+RETURNS varchar(50)
+AS 
+BEGIN
+	DECLARE @result VARCHAR(50);
+	if(@type='min')
+	   SET @result = (select min(wd_priority) from WorkflowDetails where wd_workflow_id=@id);
+	else
+	   SET @result = (select max(wd_priority) from WorkflowDetails where wd_workflow_id=@id);
+	return @result;
+END;
+GO
+
+
+
+CREATE FUNCTION [dbo].[getDepartmentName](
+    @id INT
+)
+RETURNS varchar(50)
+AS 
+BEGIN
+	DECLARE @description VARCHAR(50);
+	set @description='';
+	SET @description = (select Top 1 d_description from Departments where d_id=@id);
+	return @description;
+END;
+GO
+
+
+
+CREATE FUNCTION [dbo].[getName](
+    @id INT
+)
+RETURNS varchar(50)
+AS 
+BEGIN
+	DECLARE @name VARCHAR(50);
+	set @name='';
+	SET @name = (select Top 1 u_name+'-'+u_full_name from Users where u_id=@id);
+	return @name;
+END;
+GO
+
+CREATE TABLE [dbo].[UserDepartments](
+	[ud_id] [int] IDENTITY(1,1) NOT NULL,
+	[ud_user_id] [int] NULL,
+	[ud_depart_id] [int] NULL,
+	[ud_active_yn] [varchar](1) NULL,
+	[ud_cre_by] [int] NULL,
+	[ud_cre_date] [datetime] NULL
+) ON [PRIMARY]
+GO
+
+
+
+CREATE TABLE [dbo].[Insights](
+	[in_id] [int] IDENTITY(1,1) NOT NULL,
+	[in_fun_doc_id] [int] NULL,
+	[in_doc_id] [int] NULL,
+	[in_remarks] [varchar](max) NULL,
+	[in_cre_by] [int] NULL,
+	[in_cre_by_name] [varchar](250) NULL,
+	[in_cre_date] [datetime] NULL)
+
+
+
+	CREATE FUNCTION [dbo].[getRoleByWorkflowPriority](
+    @workflow INT, @priority INT
+)
+RETURNS varchar(50)
+AS 
+BEGIN
+	DECLARE @role VARCHAR(50);
+	set @role='';
+	SET @role = (select string_agg(r_description,' | ') from WorkflowDetails  join Roles on wd_role_id=r_id 
+				 where wd_workflow_id=@workflow and wd_priority=@priority);
+	return @role;
+END;
+GO

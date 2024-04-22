@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Cookies.Models.Product>
+
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table table-hover text-nowrap" id="mytable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_active_yn)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_cre_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.p_cre_date)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_active_yn)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_cre_by)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.p_cre_date)
+                    </td>
+                    <td>
+                        <button class="btn btn-info" onclick="editProduct('@item.p_id')"> <i class="fas fa-edit"></i></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" onclick="removeProduct('@item.p_id')"> <i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

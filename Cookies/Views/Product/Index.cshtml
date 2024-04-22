@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/Product/index">Product</a></li>
+    </ol>
+</nav>
+<div class="Pallet-fluid"  id="Products">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-warning" onclick="OpenCreateProductModal();"> <i class="fas fa-plus"></i> Create </button>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12" id="container">
+                </div>
+            </div>
+</div>
+
