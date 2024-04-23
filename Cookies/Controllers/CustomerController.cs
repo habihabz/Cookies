@@ -10,18 +10,16 @@ using Cookies.Services;
 
 namespace Cookies.Controllers
 {
-    public class ProductController : Controller
+    public class CustomerController : Controller
     {
         private readonly IRole irole;
         private readonly IMenu imenu;
-        private readonly IProduct iproduct;
-        private readonly IPrice iprice;
-        public ProductController(IRole _irole,IMenu _imenu, IProduct _iproduct, IPrice _iprice)
+        private readonly ICustomer icustomer;
+        public CustomerController(IRole _irole,IMenu _imenu, ICustomer _icustomer)
         {
             irole = _irole;
             imenu = _imenu;
-            iproduct = _iproduct;
-            iprice = _iprice;
+            icustomer = _icustomer;
         }
         // GET: Role
         public ActionResult Index()
@@ -35,9 +33,9 @@ namespace Cookies.Controllers
                 return View();
             }
         }
-        public ActionResult getProducts()
+        public ActionResult getCustomers()
         {
-            List<Product> products = new List<Product>();
+            List<Customer> customers = new List<Customer>();
             var user = getCurrentUser();
             if (user == null)
             {
@@ -45,28 +43,14 @@ namespace Cookies.Controllers
             }
             else
             {
-                products = iproduct.GetProducts();
+                customers = icustomer.getCustomers();
             }
-            return View(products);
+            return View(customers);
         }
 
-        public ActionResult GetActivePricesForAProduct(int prod_id)
-        {
-            List<Price> prices = new List<Price>();
-            var user = getCurrentUser();
-            if (user == null)
-            {
-                ViewBag.Message = "Session Expired !!";
-            }
-            else
-            {
-                prices = iprice.GetActivePricesForAProduct(prod_id);
-            }
 
-            return View(prices);
-        }
 
-        public DbResult AddProductPrice(Price price)
+        public DbResult createOrEditCustomer(Customer customer)
         {
             DbResult result = new DbResult();
             var user = getCurrentUser();
@@ -76,14 +60,21 @@ namespace Cookies.Controllers
             }
             else
             {
-                price.pr_cre_by = user.u_id;
-                result = iprice.AddProductPrice(price);
+                customer.c_cre_by = user.u_id;
+                result = icustomer.createOrEditCustomer(customer);
             }
 
             return result;
         }
 
-        public DbResult createOrEditProduct(Product product)
+        public Customer getCustomer(int id)
+        {
+            Customer customer = new Customer();
+            customer = icustomer.getCustomer(id);
+            return customer;
+        }
+
+        public DbResult removeCustomer(int id )
         {
             DbResult result = new DbResult();
             var user = getCurrentUser();
@@ -93,31 +84,7 @@ namespace Cookies.Controllers
             }
             else
             {
-                product.p_cre_by = user.u_id;
-                result = iproduct.createOrEditProduct(product);
-            }
-
-            return result;
-        }
-
-        public Product getProduct(int id)
-        {
-            Product product = new Product();
-            product = iproduct.GetProduct(id);
-            return product;
-        }
-
-        public DbResult removeProduct(int id )
-        {
-            DbResult result = new DbResult();
-            var user = getCurrentUser();
-            if (user == null)
-            {
-                result.Message = "Session is Expired !!";
-            }
-            else
-            {
-                result = iproduct.removeProduct(id);
+                result = icustomer.removeCustomer(id);
             }
 
             return result;

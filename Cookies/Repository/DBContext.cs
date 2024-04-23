@@ -31,6 +31,9 @@ namespace Cookies.Repository
 
         public DbSet<Insight> Insights { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Price> Prices { get; set; }
+        public DbSet<DbResult> DbResult { get; set; }
 
       
     }

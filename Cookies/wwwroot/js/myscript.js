@@ -3,6 +3,7 @@
     $("#rq_cre_by").select2();
     $("#rq_dep_id").select2();
     $("#rq_cre_for").select2();
+    $("#priceType").select2();
     $('#saveMenu').click(function () {
       
         var reqRow = [];
@@ -122,6 +123,9 @@
     }
     if ($("#Products").length) {
         getProducts();
+    }
+    if ($("#Customers").length) {
+        getCustomers();
     }
     
     $("#name").autocomplete({
@@ -637,4 +641,275 @@ function getProducts() {
         error: function () {
         }
     });
+}
+
+function OpenCreateProductModal() {
+    $("#p_id").val("0");
+    $("#productModalHeader").html("Create Product");
+    $("#productModal").modal("show");
+}
+
+function createOrEditProduct() {
+    var p_name = $("#p_name").val();
+    var p_id = $("#p_id").val();
+
+    if (p_name != "") {
+
+        var data = new FormData();
+        data.append("p_id", p_id);
+        data.append("p_name", p_name);
+
+        $.ajax({
+            url: "/Product/createOrEditProduct",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                if (response.message == "Success") {
+                    getProducts();
+                    $("#p_name").val("");
+                  
+                }
+                else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+            }
+        });
+
+    }
+}
+
+function editProduct(id) {
+    
+        var data = new FormData();
+        data.append("id", id);
+
+        $.ajax({
+            url: "/Product/getProduct",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                $("#productModalHeader").html("Edit Product");
+                $("#productModal").modal("show");
+                $("#p_id").val(id);
+                $("#p_name").val(response.p_name);
+         
+       
+            },
+            error: function () {
+            }
+        });
+
+}
+function removeProduct(id) {
+
+    var data = new FormData();
+    data.append("id", id);
+
+    $.ajax({
+        url: "/Product/removeProduct",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                var datatable = $("#mytable").DataTable();
+                datatable.row($("#tr" + id)).remove().draw();
+
+            }
+            else {
+                alert(response.message);
+            }
+     
+        },
+        error: function () {
+        }
+    });
+}
+
+
+///////////
+
+function getCustomers() {
+    var data = new FormData();
+    $.ajax({
+        url: "/Customer/getCustomers",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#container").html(response);
+            loadDataTableById("mytable");
+        },
+        error: function () {
+        }
+    });
+}
+
+function OpenCreateCustomerModal() {
+    $("#c_id").val("0");
+    $("#customerModalHeader").html("Create Customer");
+    $("#customerModal").modal("show");
+}
+
+function createOrEditCustomer() {
+    var c_name = $("#c_name").val();
+    var c_id = $("#c_id").val();
+    var c_price_type = $("#c_price_type").val();
+
+    if (c_name != "") {
+
+        var data = new FormData();
+        data.append("c_id", c_id);
+        data.append("c_name", c_name);
+        data.append("c_price_type", c_price_type);
+
+        $.ajax({
+            url: "/Customer/createOrEditCustomer",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                if (response.message == "Success") {
+                    getCustomers();
+                    $("#c_name").val("");
+                    $("#c_price_type").select2().val("").trigger("change");
+                }
+                else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+            }
+        });
+
+    }
+}
+
+function editCustomer(id) {
+
+    var data = new FormData();
+    data.append("id", id);
+
+    $.ajax({
+        url: "/Customer/getCustomer",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#customerModalHeader").html("Edit Customer");
+            $("#customerModal").modal("show");
+            $("#c_id").val(id);
+            $("#c_name").val(response.c_name);
+            $("#c_price_type").select2().val(response.c_price_type).trigger("change");
+
+        },
+        error: function () {
+        }
+    });
+
+}
+function removeCustomer(id) {
+
+    var data = new FormData();
+    data.append("id", id);
+
+    $.ajax({
+        url: "/Customer/removeCustomer",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+
+                var datatable = $("#mytable").DataTable();
+                datatable.row($("#tr" + id)).remove().draw();
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+}
+
+function openPriceModal(id) {
+
+    $("#pr_prod_id").val(id);
+    $("#priceModal").modal("show");
+    GetActivePricesForAProduct(id);
+
+}
+
+function AddProductPrice() {
+
+    var pr_prod_id = $("#pr_prod_id").val();
+    var pr_price_type = $("#pr_price_type").val();
+    var pr_price = $("#pr_price").val();
+    var pr_start_date = $("#pr_start_date").val();
+
+
+    var data = new FormData();
+    data.append("pr_prod_id", pr_prod_id);
+    data.append("pr_price_type", pr_price_type);
+    data.append("pr_price", pr_price);
+    data.append("pr_start_date", pr_start_date);
+    $.ajax({
+        url: "/Product/AddProductPrice",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                GetActivePricesForAProduct(pr_prod_id);
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+}
+function GetActivePricesForAProduct(prod_id) {
+
+    var data = new FormData();
+    data.append("prod_id", prod_id);
+    $.ajax({
+        url: "/Product/GetActivePricesForAProduct",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#priceContainer").html(response);
+            
+        },
+        error: function () {
+        }
+    });
+
 }

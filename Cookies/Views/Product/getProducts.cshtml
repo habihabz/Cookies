@@ -15,10 +15,10 @@
                     @Html.DisplayNameFor(model => model.p_name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.p_active_yn)
+
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.p_cre_by)
+                    @Html.DisplayNameFor(model => model.p_cre_by_name)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.p_cre_date)
@@ -30,29 +30,29 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.p_id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.p_name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.p_active_yn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.p_cre_by)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.p_cre_date)
-                    </td>
-                    <td>
-                        <button class="btn btn-info" onclick="editProduct('@item.p_id')"> <i class="fas fa-edit"></i></button>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" onclick="removeProduct('@item.p_id')"> <i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+            <tr id="@String.Format("tr{0}",@item.p_id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_name)
+                </td>
+                <td>
+                    <button class="btn btn-info" onclick="openPriceModal('@item.p_id')"><i class="fas fa-rupee-sign"></i> Sales Price</button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_cre_by_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.p_cre_date)
+                </td>
+                <td>
+                    <button class="btn btn-info" onclick="editProduct('@item.p_id')"> <i class="fas fa-edit"></i></button>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="removeProduct('@item.p_id')"> <i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

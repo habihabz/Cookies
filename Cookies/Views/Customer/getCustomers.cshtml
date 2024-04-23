@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Cookies.Models.Customer>
+
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table table-hover text-nowrap" id="mytable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_price_type)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.c_cre_by_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.c_cre_date)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="@String.Format("tr{0}",@item.c_id)">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_price_type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_cre_by_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_cre_date)
+                    </td>
+                    <td>
+                        <button class="btn btn-info" onclick="editCustomer('@item.c_id')"> <i class="fas fa-edit"></i></button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" onclick="removeCustomer('@item.c_id')"> <i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

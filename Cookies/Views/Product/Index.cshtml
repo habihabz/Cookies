@@ -10,17 +10,75 @@
         <li class="breadcrumb-item active"><a href="/Product/index">Product</a></li>
     </ol>
 </nav>
-<div class="Pallet-fluid"  id="Products">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <button class="btn btn-warning" onclick="OpenCreateProductModal();"> <i class="fas fa-plus"></i> Create </button>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-12" id="container">
-                </div>
-            </div>
+<div class="Pallet-fluid" id="Products">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-warning" onclick="OpenCreateProductModal();"> <i class="fas fa-plus"></i> Create </button>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12" id="container">
+        </div>
+    </div>
 </div>
 
+<div class="modal fade bd-example-modal-xl" id="productModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalHeader"></h5>
+
+            </div>
+            <div class="modal-body" id="productContainer">
+                <input type="hidden" id="p_id" value="0" />
+                <input class="form-control" type="text" id="p_name" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="createOrEditProduct()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="priceModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="priceModalHeader"></h5>
+            </div>
+            <div class="modal-body" >
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="hidden" id="pr_prod_id"  value="0"/>
+                        <label class="label">Price Type</label>
+                        <select class="form-control" id="pr_price_type">
+                            <option value="">Select Price</option>
+                            <option value="Retail">Retail Price</option>
+                            <option value="Wholesale">Whole Sale Price</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="label">Price</label>
+                        <input class="form-control" type="text" id="pr_price" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="label">With Effected Date</label>
+                        <input class="form-control" type="date" id="pr_start_date" />
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-success" onclick="AddProductPrice();" style="margin-top:22px;">Add Price</button>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12" id="priceContainer">
+
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>

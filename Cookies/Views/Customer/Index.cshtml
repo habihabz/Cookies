@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/Customer/index">Customer</a></li>
+    </ol>
+</nav>
+<div class="Pallet-fluid" id="Customers">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-warning" onclick="OpenCreateCustomerModal();"> <i class="fas fa-plus"></i> Create </button>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12" id="container">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="customerModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalHeader"></h5>
+
+            </div>
+            <div class="modal-body" id="customerContainer">
+
+                <input type="hidden" id="c_id" value="0" />
+                <label class="label">Customer Name</label>
+                <input class="form-control" type="text" id="c_name" />
+                <br />
+                <label class="label">Price Type</label>
+                <select class="form-control" id="c_price_type">
+                    <option value="">Select Price</option>
+                    <option value="Retail">Retail Price</option>
+                    <option value="Wholesale">Whole Sale Price</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="createOrEditCustomer()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

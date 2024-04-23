@@ -10218,3 +10218,6 @@ th {
     background-color: #21355C;
     color: white;
 }
+.select2-container {
+    width: 100% !important;
+}
