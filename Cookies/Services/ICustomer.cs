@@ -12,5 +12,6 @@ namespace Cookies.Services
        DbResult createOrEditCustomer(Customer customer);
        Customer getCustomer(int id);
        DbResult removeCustomer(int id);
+       List<CustomerLedger> getCustomerTransactions(int c_id);
     }
 }

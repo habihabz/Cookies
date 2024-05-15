@@ -33,6 +33,7 @@ namespace Cookies.Controllers
                 return View();
             }
         }
+
         public ActionResult getCustomers()
         {
             List<Customer> customers = new List<Customer>();
@@ -89,6 +90,24 @@ namespace Cookies.Controllers
 
             return result;
         }
+
+
+        public ActionResult getCustomerTransactions(int c_id)
+        {
+            List<CustomerLedger> customerLedgers = new List<CustomerLedger>();
+
+            customerLedgers = icustomer.getCustomerTransactions(c_id);
+
+            var Purchased = customerLedgers.Where(x => x.cl_acc_type == "Debit").Sum(x => x.cl_amount);
+            var Paid = customerLedgers.Where(x => x.cl_acc_type == "Credit").Sum(x => x.cl_amount);
+            var ToBePaid = (Purchased-Paid);
+            ViewBag.Purchased= Purchased;
+            ViewBag.Paid= Paid;
+            ViewBag.ToBePaid= ToBePaid;
+
+            return View(customerLedgers);
+        }
+
 
 
         private User getCurrentUser()

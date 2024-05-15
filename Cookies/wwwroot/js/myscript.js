@@ -1,9 +1,16 @@
 ﻿$(document).ready(function () {
-
+    $("#DateFilter").hide();
     $("#rq_cre_by").select2();
     $("#rq_dep_id").select2();
     $("#rq_cre_for").select2();
     $("#priceType").select2();
+    $("#so_customer").select2();
+    $("#sod_product").select2();
+    $("#inv_customer").select2();
+    $("#inv_product").select2();
+    $("#id_prod_id").select2();
+    $("#customer").select2();
+  
     $('#saveMenu').click(function () {
       
         var reqRow = [];
@@ -126,6 +133,12 @@
     }
     if ($("#Customers").length) {
         getCustomers();
+    }
+    if ($("#SalesOrders").length) {
+        getSalesOrders();
+    }
+    if ($("#Invoices").length) {
+        /*getInvoices();*/
     }
     
     $("#name").autocomplete({
@@ -625,6 +638,19 @@ function loadDataTableById(id) {
     });
 }
 
+function loadDataTableByIdAndLength(id,length) {
+    $('#' + id).DataTable({
+        "pageLength": length,
+        order: [],
+        dom: 'lBfrtip',
+        buttons: [
+            { extend: 'excel', title: '' },
+            'copyHtml5',
+            'pdfHtml5'
+        ]
+    });
+}
+
 function getProducts() {
     var data = new FormData();
     $.ajax({
@@ -912,4 +938,522 @@ function GetActivePricesForAProduct(prod_id) {
         }
     });
 
+}
+
+
+function getSalesOrders() {
+    var data = new FormData();
+    $.ajax({
+        url: "/SalesOrder/getSalesOrders",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#container").html(response);
+            loadDataTableById("mytable");
+        },
+        error: function () {
+        }
+    });
+}
+
+function OpenCreateSalesOrderModal() {
+    $("#c_id").val("0");
+    $("#salesOrderModalHeader").html("Create Sales Order");
+    $("#salesOrderModal").modal("show");
+}
+
+function AddSalesOrderDetail() {
+
+    var so_customer = $("#so_customer").val();
+    var sod_product = $("#sod_product").val();
+    var sod_qty = $("#sod_qty").val();
+
+    if (so_customer != 0 && sod_product != 0 && sod_qty != 0) {
+
+        var data = new FormData();
+
+        data.append("so_customer", so_customer);
+        data.append("sod_product", sod_product);
+        data.append("sod_qty", sod_qty);
+
+        $.ajax({
+            url: "/SalesOrder/AddSalesOrderDetail",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                $('#table2').DataTable().destroy();
+                $("#table2 > tbody").append(response);
+                $("#sod_product").select2().val(0).trigger("change");
+                $("#sod_qty").val("");
+                updateFooterTotals('table2');
+                $('#table2').DataTable({
+                    "pageLength": 10,
+                    order: [],
+                    dom: 'lBfrtip',
+                    buttons: [
+                        { extend: 'excel', title: '' },
+                        'copyHtml5',
+                        'pdfHtml5'
+                    ]
+                });
+            },
+            error: function () {
+            }
+        });
+
+    }
+    else {
+        alert("Please Enter data !!!");
+    }
+}
+
+function HideDateRange() {
+    $("#DateFilter").toggle();
+}
+
+function updateFooterTotals(id) {
+    var totalQty = 0;
+    var totalNetPrice = 0;
+
+    // Loop through each row in the table body
+    $('#' + id+' tbody tr').each(function () {
+        // Get the quantity and net price values from each row
+        var qty = parseFloat($(this).find('td:eq(2)').text());
+        var netPrice = parseFloat($(this).find('td:eq(4)').text().replace(/[^\d.-]/g, ''));
+      
+        // Add the quantity and net price to the totals
+        totalQty += isNaN(qty) ? 0 : qty;
+        totalNetPrice += isNaN(netPrice) ? 0 : netPrice;
+    });
+
+    // Update the footer cells with the calculated totals
+    $('#' + id +' tfoot tr td:eq(2)').text(totalQty.toFixed(2));
+    $('#' + id + ' tfoot tr td:eq(4)').text("₹"+totalNetPrice.toFixed(2));
+}
+
+
+function clearSalesOrderEntryForm() {
+
+    $("#sod_product").select2().val(0).trigger("change");
+    $("#sod_qty").val("");
+    $('#table2').DataTable().destroy();
+    $("#table2 > tbody").empty();
+    updateFooterTotals('table2');
+    $('#table2').DataTable({
+        "pageLength": 10,
+        order: [],
+        dom: 'lBfrtip',
+        buttons: [
+            { extend: 'excel', title: '' },
+            'copyHtml5',
+            'pdfHtml5'
+        ]
+    });
+}
+
+function createSalesOrder() {
+    var so_customer = $("#so_customer").val();
+    var jsonData = tableToJson('table2');
+
+    var data = new FormData();
+    data.append("so_customer", so_customer);
+    data.append("sod_data", jsonData);
+    $.ajax({
+        url: "/SalesOrder/createSalesOrder",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                alert("Created Successfully.");
+                $("#so_customer").select2().val(0).trigger("change");
+                getSalesOrders();
+            }
+            else {
+                alert(response.message);
+            }
+        },
+        error: function () {
+        }
+    });
+}
+
+
+function tableToJson(tableId) {
+    var table = $('#' + tableId).DataTable();
+    var data = [];
+
+    // Get column headers
+    var headers = [];
+    table.columns().every(function () {
+        if (this.header().textContent != "Action") {
+            headers.push(this.header().textContent);
+        }
+    });
+
+    // Iterate over all rows in the table (including hidden ones)
+    table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+        var rowData = {};
+        var rowDataArray = this.data();
+
+        // Iterate over row cells
+        var context = this; // Preserve context
+        rowDataArray.forEach(function (cellData, cellIndex) {
+            if (context.column(cellIndex).header().textContent != "Action") {
+                rowData[headers[cellIndex]] = cellData;
+            }
+        });
+
+        data.push(rowData);
+    });
+
+    // Convert data array to JSON
+    return JSON.stringify(data);
+}
+
+function removeSaleOrderDetailRow(rowid ) {
+    var datatable = $("#table2").DataTable();
+    datatable.row($("#sod_tr_" + rowid)).remove().draw();
+    updateFooterTotals('table2');
+}
+
+
+function removeSalesOrder(id) {
+
+    var data = new FormData();
+    data.append("id", id);
+
+    $.ajax({
+        url: "/SalesOrder/removeSalesOrder",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                var datatable = $("#mytable").DataTable();
+                datatable.row($("#so_tr" + id)).remove().draw();
+               
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+
+}
+
+function getSalesOrderDetail(id) {
+    var data = new FormData();
+    data.append("id", id);
+    $.ajax({
+        url: "/SalesOrder/getSalesOrderDetail",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+
+            $("#salesOrderDetailModal").modal("show");
+            $("#salesOrderDetailContainer").html(response);
+            updateFooterTotals('table3');
+            $('#table3').DataTable({
+                "pageLength": 10,
+                order: [],
+                dom: 'lBfrtip',
+                buttons: [
+                    { extend: 'excel', title: '' },
+                    'copyHtml5',
+                    'pdfHtml5'
+                ]
+            });
+
+        },
+        error: function () {
+        }
+    });
+  
+}
+
+
+function convertSalesOrderToInvoice(so_id) {
+
+    var data = new FormData();
+    data.append("so_id", so_id);
+
+    $.ajax({
+        url: "/SalesOrder/convertSalesOrderToInvoice",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                var datatable = $("#mytable").DataTable();
+                datatable.row($("#so_tr" + so_id)).remove().draw();
+
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+
+}
+
+
+
+
+
+//document.getElementById("printForm").addEventListener("submit", function (event) {
+//    // Prevent the default form submission behavior
+//    event.preventDefault();
+
+//    // Submit the form manually
+//    this.submit();
+//});
+
+
+function printSalesOrder(id) {
+
+    fetch("/Print/PrintSalesOrder?id=" + id+"")
+        .then(response => response.blob())
+        .then(blob => {
+            // Create a URL for the PDF blob
+            const pdfUrl = URL.createObjectURL(blob);
+
+            // Open the PDF in a new window or tab
+            const newWindow = window.open(pdfUrl, "_blank");
+
+            // Wait for a short time for the PDF to load
+            setTimeout(() => {
+                // Trigger printing
+                newWindow.print();
+            }, 500); // Adjust delay as needed
+        });
+}
+
+
+
+function getInvoices() {
+
+    var customer = $("#customer").val();
+    var posted = $('input[name="posted"]').prop("checked");
+    var dateRequired = $('input[name="dateRequired"]').prop("checked");
+    var reportrange = $("#reportrange").val();
+
+    var data = new FormData();
+    data.append("customer", customer);
+    data.append("posted", posted);
+    data.append("dateRequired", dateRequired);
+    data.append("reportrange", reportrange);
+    $.ajax({
+        url: "/Invoice/getInvoices",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#container").html(response);
+            loadDataTableById("mytable");
+        },
+        error: function () {
+        }
+    });
+}
+
+
+
+
+function getInvoiceDetails(inv_id, inv_customer) {
+
+  
+    var data = new FormData();
+    data.append("inv_id", inv_id);
+    data.append("inv_customer", inv_customer);
+    $.ajax({
+        url: "/Invoice/getInvoiceDetails",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+
+            $("#invoiceModalContainer").html(response);
+            $("#inv_id").val(inv_id);
+            loadDataTableByIdAndLength("table2", 5);
+            $("#inv_customer").select2().val(inv_customer).trigger("change");
+            $("#invoiceModal").modal("show");
+            updateFooterTotals('table2');
+            findNewCustomerBalance();
+        },
+        error: function () {
+        }
+    });
+
+
+}
+
+
+function getInvDetail(id_id) {
+
+    var data = new FormData();
+    data.append("id_id", id_id);
+    $.ajax({
+        url: "/Invoice/getInvDetail",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#id_id").val(response.id_id);
+            $("#id_prod_id").select2().val(response.id_prod_id).trigger("change");
+            $("#id_qty").val(response.id_qty);
+        },
+        error: function () {
+        }
+    });
+
+}
+
+function clearInvoiceDetailEntry() {
+    $("#id_id").val(0);
+    $("#id_prod_id").select2().val(0).trigger("change");
+    $("#id_qty").val(0);
+}
+
+function AddOrUpdateInvoiceDetail() {
+    var id_id = $("#id_id").val();
+    var id_inv_id = $("#inv_id").val();
+    var id_prod_id = $("#id_prod_id").val();
+    var id_qty = $("#id_qty").val();
+    var inv_customer= $("#inv_customer").val();
+    var data = new FormData();
+    data.append("id_id", id_id);
+    data.append("id_inv_id", id_inv_id);
+    data.append("id_prod_id", id_prod_id);
+    data.append("id_qty", id_qty);
+    $.ajax({
+        url: "/Invoice/AddOrUpdateInvoiceDetail",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                alert("Successfully Saved");
+                getInvoiceDetails(id_inv_id, inv_customer);
+                clearInvoiceDetailEntry();
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+}
+
+function findNewCustomerBalance() {
+    var inv_total_price = parseFloat($("#inv_total_price").val());
+    var inv_cbp = parseFloat($("#inv_cbp").val());
+    var inv_amount_received = parseFloat($("#inv_amount_received").val());
+    var inv_new_balance = (inv_total_price + inv_cbp) - inv_amount_received;
+    $("#inv_new_balance").val(inv_new_balance.toFixed(2)); // Round to 2 decimal places if needed
+}
+
+
+function postInvoice() {
+    var inv_id = $("#inv_id").val();
+    var inv_amount_received = $("#inv_amount_received").val();
+
+    var data = new FormData();
+    data.append("inv_id", inv_id);
+    data.append("inv_amount_received", inv_amount_received);
+
+    $.ajax({
+        url: "/Invoice/postInvoice",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            if (response.message == "Success") {
+                printInvoice(inv_id);
+                getInvoices();
+                $("#invoiceModal").modal("hide");
+                $("#inv_amount_received").val("0");
+
+               
+            }
+            else {
+                alert(response.message);
+            }
+
+        },
+        error: function () {
+        }
+    });
+}
+
+function printInvoice(inv_id) {
+    fetch("/Print/PrintInvoice?id=" + inv_id + "")
+        .then(response => response.blob())
+        .then(blob => {
+            // Create a URL for the PDF blob
+            const pdfUrl = URL.createObjectURL(blob);
+
+            // Open the PDF in a new window or tab
+            const newWindow = window.open(pdfUrl, "_blank");
+
+            // Wait for a short time for the PDF to load
+            setTimeout(() => {
+                // Trigger printing
+                newWindow.print();
+            }, 500); // Adjust delay as needed
+        });
+}
+
+function getCustomerTransactions(c_id) {
+    var data = new FormData();
+    data.append("c_id", c_id);
+    $.ajax({
+        url: "/Customer/getCustomerTransactions",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: data,
+        success: function (response) {
+            $("#LedgerContainer").html(response);
+            loadDataTableByIdAndLength("table2", 10);
+            $("#ledgerModal").modal("show");
+            
+        },
+        error: function () {
+        }
+    });
 }

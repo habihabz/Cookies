@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Cookies.Models.InvoiceDetail>
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="hidden" id="inv_id" value="0" />
+            <label class="control-label">Customer</label>
+            <select id="inv_customer" class="form-control" asp-items="@(new SelectList(ViewBag.Customers,"c_id","c_name"))" disabled>
+                <option value="0">Select Customer</option>
+            </select>
+        </div>
+    </div>
+</div>
+<br />
+@if (ViewBag.Invoice != "Y")
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">Product</label>
+                <input type="hidden" id="id_id" value="0" />
+                <select id="id_prod_id" class="form-control" asp-items="@(new SelectList(ViewBag.Products, "p_id", "p_name"))">
+                    <option value="0">Select Product</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Qty</label>
+                <input class="form-control" type="number" id="id_qty" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="AddOrUpdateInvoiceDetail()" style="margin-top:23px;"> <i class="fas fa-save"></i> Save</button>
+                <button class="btn btn-secondary" onclick="clearInvoiceDetailEntry()" style="margin-top:23px;"> <i class="fas fa-eraser"></i> Clear</button>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <div class="form-group justify-content-end">
+                <button class="btn btn-success pull-right" onclick="postInvoice()" style="margin-top: 23px;">
+                    <i class="fas fa-check"></i> Post
+                </button>
+            </div>
+        </div>
+    </div>
+
+}
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover text-nowrap" id="table2">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_id)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_prod_name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_qty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_unit_price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.id_total_price)
+                        </th>
+                        @if (ViewBag.Invoice != "Y")
+                        {
+                            <th>
+
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_prod_name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_qty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_unit_price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id_total_price)
+                            </td>
+                            @if (ViewBag.Invoice != "Y")
+                            {
+                                <td>
+                                    <button class="btn btn-info" onclick="getInvDetail('@item.id_id');"><i class="fas fa-edit"></i></button>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="bg-default  text-secondary">
+                        <td></td>
+                        <td>Total</td>
+                        <td>0</td>
+                        <td>0.00</td>
+                        <td>0.00</td>
+                        @if (ViewBag.Invoice != "Y")
+                        {
+                            <td></td>
+                        }
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-md-4">
+        <table class="table table-borderless text-wrap">
+            <tr>
+                <td>Total</td>
+                <td>:</td>
+                <td><input class="form-control" id="inv_total_price" value="@ViewBag.TotalPrice" type="number" autocomplete="off" disabled /></td>
+            </tr>
+            @if (ViewBag.Invoice != "Y")
+            {
+                <tr>
+                    <td>Old Balance</td>
+                    <td>:</td>
+                    <td><input class="form-control" id="inv_cbp" value="@ViewBag.CBP" type="number" autocomplete="off" disabled /> </td>
+                </tr>
+            }
+            <tr>
+                <td>Amount Received</td>
+                <td>:</td>
+                <td>
+                    @{
+                        var dis = "";
+                        @if (ViewBag.Invoice == "Y")
+                        {
+                            dis = "disabled";
+                            <input class="form-control" id="inv_amount_received" min="0" value="@ViewBag.AmountPaid" type="number" autocomplete="off" onkeyup="findNewCustomerBalance();" @dis />
+                        }
+                        else
+                        {
+                            <input class="form-control" id="inv_amount_received" min="0" value="0.00" type="number" autocomplete="off" onkeyup="findNewCustomerBalance();" @dis />
+
+                        }
+
+
+                    }
+                </td>
+            </tr>
+            @if (ViewBag.Invoice != "Y")
+            {
+                <tr>
+                    <td>New Balance</td>
+                    <td>:</td>
+                    <td><input class="form-control" id="inv_new_balance" value="@ViewBag.CBP" type="number" autocomplete="off" disabled /></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Cookies.Models.SalesOrder>
+
+@{
+    Layout = null;
+}
+
+
+<div class="table-responsive">
+    <table class="table table-hover text-nowrap" id="mytable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.so_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.so_customer_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.so_price_type)
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+
+                </th>
+                <th>
+                    Print
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.so_cre_by_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.so_cre_date)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="@String.Format("so_tr{0}",@item.so_id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.so_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.so_customer_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.so_price_type)
+                </td>
+
+                <td>
+                    <button class="btn btn-info" onclick="getSalesOrderDetail('@item.so_id')"><i class="fas fa-list"></i></button>
+                </td>
+                <td>
+                    @if (!item.so_is_inv_converved.ToString().Equals("Y"))
+                    {
+                        <button class="btn btn-warning" onclick="convertSalesOrderToInvoice('@item.so_id')">Convert to Invoice</button>
+                    }
+                </td>
+                <td>
+                    @*
+                    <form id="printForm" method="post" action="/Print/PrintSalesOrder" target="_blank">
+                        <input type="hidden" name="id" value="@item.so_id" />
+                        <button type="submit" class="btn btn-secondary"><i class="fas fa-print"></i></button>
+                    </form>
+                    *@
+
+                    <button type="submit" class="btn btn-secondary" onclick="printSalesOrder('@item.so_id')"><i class="fas fa-print"></i></button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.so_cre_by_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.so_cre_date)
+                </td>
+                <td>
+                    @if (!item.so_is_inv_converved.ToString().Equals("Y"))
+                    {
+                        <button class="btn btn-danger" onclick="removeSalesOrder('@item.so_id')"><i class="fas fa-trash"></i> </button>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

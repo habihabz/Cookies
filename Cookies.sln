@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cookies", "Cookies\Cookies.csproj", "{2525F2C0-E944-47B0-9950-96B75BF7CE23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportDesigning", "ReportDesigning\ReportDesigning.csproj", "{31537857-470C-414F-937E-0E03B2F78F4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2525F2C0-E944-47B0-9950-96B75BF7CE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2525F2C0-E944-47B0-9950-96B75BF7CE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2525F2C0-E944-47B0-9950-96B75BF7CE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31537857-470C-414F-937E-0E03B2F78F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31537857-470C-414F-937E-0E03B2F78F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31537857-470C-414F-937E-0E03B2F78F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31537857-470C-414F-937E-0E03B2F78F4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

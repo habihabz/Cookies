@@ -19,21 +19,21 @@ namespace Cookies.Repository
         public DbSet<Workflow> Workflows { get; set; }
         public DbSet<WorkflowDetail> WorkflowDetails { get; set; }
         public DbSet<WorkflowTracker> workflowTrackers { get; set; }
-    
         public DbSet<Documents> Documents { get; set; }
-
- 
         public DbSet<RoleMenu> RoleMenus { get; set; }
-
         public DbSet<Menu> Menus { get; set; }
-
         public DbSet<UserDepartment> UserDepartments { get; set; }
-
         public DbSet<Insight> Insights { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<DbResult> DbResult { get; set; }
+        public DbSet<SalesOrder> SalesOrders { get; set; }
+        public DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
+        public DbSet<List_SalesOrderDetail> List_SalesOrderDetails { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+        public DbSet<CustomerLedger> CustomerLedgers { get; set; }
 
       
     }

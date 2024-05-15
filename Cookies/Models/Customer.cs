@@ -21,6 +21,11 @@ namespace Cookies.Models
         [Display(Name = "Price Type")]
         public string c_price_type { get; set; }
 
+        [Display(Name = "Balance Payable")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "₹{0:N}")]
+        public decimal c_balance_payable { get; set; }
+
         [Display(Name = "Created by")]
         public int c_cre_by { get; set; }
 

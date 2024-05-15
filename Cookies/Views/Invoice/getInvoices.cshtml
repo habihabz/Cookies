@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Cookies.Models.Invoice>
+
+@{
+    Layout = null;
+}
+
+<div class="table-responsive">
+    <table class="table table-hover text-nowrap" id="mytable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_customer_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_price_type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_order_no)
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Details
+                </th>
+                <th>
+                    Print
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_cre_by_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.inv_cre_date)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr id="@String.Format("inv_tr{0}",@item.inv_id)">
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_customer_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_price_type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_order_no)
+                </td>
+                <td>
+                    @if (item.inv_is_posted_yn == "Y")
+                    {
+                        <snap>Posted</snap>
+                    }
+                    else
+                    {
+                        <snap>Unposted</snap>
+                    }
+                </td>
+                <td>
+                    <button class="btn btn-info" onclick="getInvoiceDetails('@item.inv_id','@item.inv_customer')"><i class="fas fa-list"></i></button>
+                </td>
+
+                <td>
+                    <button type="submit" class="btn btn-secondary" onclick="printInvoice('@item.inv_id')"><i class="fas fa-print"></i></button>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_cre_by_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inv_cre_date)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

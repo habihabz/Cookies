@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/Invoices/index">Invoices</a></li>
+    </ol>
+</nav>
+<div class="Pallet-fluid" id="Invoices">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Customer</label>
+                    <select id="customer" class="form-control" asp-items="@(new SelectList(ViewBag.Customers,"c_id","c_name"))" onchange="getInvoices();">
+                        <option value="0">All</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group right-pull">
+                    <label class="control-label">Posted Invoices</label>
+                    <br />
+                    <label class="switch">
+                        <input type="checkbox" name="posted" id="posted" value="posted" onchange="getInvoices();" >
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group right-pull">
+                    <label class="control-label">Show Date Filter</label>
+                    <br />
+                    <label class="switch">
+                        <input type="checkbox" name="dateRequired" id="dateRequired" value="dateRequired"  onchange="HideDateRange()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-3" id="DateFilter">
+                <div class="form-group">
+
+                    <label class="control-label">Date Range</label>
+                    <input id="reportrange" class="form-control" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%" onchange="getInvoices();"/>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-12" id="container">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="invoiceModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="InvoiceModalHeader"></h5>
+
+            </div>
+            <div class="modal-body" id="invoiceModalContainer">
+
+             
+                    
+                                     
+            </div>
+        </div>
+    </div>
+</div>

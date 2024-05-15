@@ -1,0 +1,17 @@
+﻿@model Cookies.Models.SalesOrderDetail
+
+@{
+    Layout = null;
+    var random=Guid.NewGuid().ToString();
+}
+
+<tr id="sod_tr_@random">
+    <td>@Model.sod_prod_id</td>
+    <td>@Model.sod_prod_name</td>
+    <td>@Model.sod_qty</td>
+    <td>@Model.sod_unit_price</td>
+    <td>@Model.sod_total_price</td>
+   
+    <td><button class="btn btn-danger" onclick="removeSaleOrderDetailRow('@random')"><i class="fas fa-trash"></i></button></td>
+</tr>
+

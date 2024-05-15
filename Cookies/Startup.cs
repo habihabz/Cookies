@@ -53,6 +53,8 @@ namespace Cookies
             services.AddTransient<IProduct, ProductRepository>();
             services.AddTransient<ICustomer, CustomerRepository>();
             services.AddTransient<IPrice, PriceRepository>();
+            services.AddTransient<ISalesOrder, SalesOrderRepository>();
+            services.AddTransient<IInvoice, InvoiceRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

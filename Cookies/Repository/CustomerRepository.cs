@@ -50,5 +50,12 @@ namespace Cookies.Repository
             var result = db.DbResult.FromSqlRaw<DbResult>("EXECUTE dbo.removeCustomer @id", _id).ToList().FirstOrDefault();
             return result;
         }
+
+        public List<CustomerLedger> getCustomerTransactions(int c_id)
+        {
+            var _c_id = new SqlParameter("c_id", c_id + "");
+            var customerLedgers = db.CustomerLedgers.FromSqlRaw<CustomerLedger>("EXECUTE dbo.getCustomerTransactions @c_id", _c_id).ToList();
+            return customerLedgers;
+        }
     }
 }

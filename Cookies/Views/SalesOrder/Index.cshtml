@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/SalesOrder/index">Sales Order</a></li>
+    </ol>
+</nav>
+<div class="Pallet-fluid" id="SalesOrders">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-warning" onclick="OpenCreateSalesOrderModal();"> <i class="fas fa-plus"></i> Create Sales Order</button>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12" id="container">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="salesOrderModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salesOrderModalHeader"></h5>
+
+            </div>
+            <div class="modal-body" id="salesOrderContainer">
+
+                <div class="row" >
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Customer</label>
+                            <select id="so_customer" class="form-control" asp-items="@(new SelectList(ViewBag.Customers,"c_id","c_name"))" onchange="clearSalesOrderEntryForm();">
+                                <option value="0">Select Customer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Product</label>
+                            <select id="sod_product" class="form-control" asp-items="@(new SelectList(ViewBag.Products,"p_id","p_name"))">
+                                <option value="0">Select Product</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Qty</label>
+                            <input class="form-control" type="number" id="sod_qty" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button class="btn btn-primary" onclick="AddSalesOrderDetail()" style="margin-top:23px;"> <i class="fas fa-plus"></i> Add Row</button>
+                        </div>
+                       
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button class="btn btn-success pull-right" onclick="createSalesOrder()" style="margin-top:23px;"> <i class="fas fa-save"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-hover text nowrap" id="table2">
+                            <thead>
+                                <tr>
+
+                                    <th>ProductID</th>
+                                    <th>ProductName</th>
+                                    <th>Qty</th>
+                                    <th>UnitPrice</th>
+                                    <th>NetPrice</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-default  text-primary">
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td>0.00</td>
+                                    <td></td>
+                                    <td>0.00</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="salesOrderDetailModal" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="width:90%">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Sales Order Details</h5>
+            </div>
+            <div class="modal-body" >
+                <div class="row">
+                    <div class="col-md-12" id="salesOrderDetailContainer">
+                 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

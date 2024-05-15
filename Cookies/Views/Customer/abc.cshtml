@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Cookies.Models.SalesOrder>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>abc</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.so_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_customer_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_price_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_is_inv_converved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_is_finished_yn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_cre_by)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_cre_by_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.so_cre_date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_customer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_customer_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_price_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_is_inv_converved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_is_finished_yn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_cre_by)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_cre_by_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.so_cre_date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

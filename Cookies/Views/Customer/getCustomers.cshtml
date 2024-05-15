@@ -17,7 +17,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.c_price_type)
                 </th>
-
+                <th>
+                    @Html.DisplayNameFor(model => model.c_balance_payable)
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.c_cre_by_name)
                 </th>
@@ -40,6 +42,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.c_price_type)
+                    </td>
+                    <td style="cursor:pointer;">
+                        <span onclick="getCustomerTransactions('@item.c_id')">@Html.DisplayFor(modelItem => item.c_balance_payable)</span>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.c_cre_by_name)
