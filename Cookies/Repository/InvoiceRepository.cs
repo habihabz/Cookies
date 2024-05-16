@@ -10,6 +10,8 @@ using Microsoft.Data.SqlClient;
 using System.ComponentModel;
 using System.Data;
 using Newtonsoft.Json;
+using System.Data.Common;
+using System.Diagnostics;
 
 namespace Cookies.Repository
 {
@@ -93,6 +95,53 @@ namespace Cookies.Repository
             var dbresult = db.DbResult.FromSqlRaw<DbResult>("EXECUTE dbo.AddOrUpdateInvoiceDetail @id_id,@id_inv_id,@id_prod_id,@id_qty,@id_modify_by",
                 id_id, id_inv_id, id_prod_id, id_qty, id_modify_by).ToList().FirstOrDefault();
             return dbresult;
+        }
+
+        public DataTable getInvoiceReport(int customer, int product, DateTime from, DateTime to, string type, string fullhistory)
+        {
+            DataTable dt = new DataTable();
+            var conn = db.Database.GetDbConnection();
+            string from2 = "";
+            string to2 = "";
+            if (fullhistory == "true")
+            {
+                from2 = ""; to2 = "";
+            }
+            else
+            {
+                from2 = "" + from; to2 = "" + to;
+            }
+            try
+            {
+                conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    string query = @"exec [dbo].[getInvoiceReport] @customer='" + customer + "',@product='" + product + "'," +
+                        "@from='" + from2 + "',@to='" + to2 + "',@type='" + type + "',@fullhistory='" + fullhistory + "'";
+                    command.CommandText = query;
+                    command.CommandTimeout = 250;
+
+                    DbDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
+                    reader.Dispose();
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message + " " + ex.InnerException);
+                conn.Close();
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return dt;
         }
     }
 }

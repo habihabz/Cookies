@@ -1,6 +1,7 @@
 ﻿using Cookies.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,5 +18,6 @@ namespace Cookies.Services
         List<InvoiceDetail> getInvoiceDetails(int inv_id);
         InvoiceDetail getInvoiceDetail(int id_id);
         DbResult AddOrUpdateInvoiceDetail(InvoiceDetail invoiceDetail);
+        DataTable getInvoiceReport(int customer, int product, DateTime from, DateTime to, string type, string fullhistory);
     }
 }

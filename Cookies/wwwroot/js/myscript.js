@@ -1016,6 +1016,9 @@ function AddSalesOrderDetail() {
 function HideDateRange() {
     $("#DateFilter").toggle();
 }
+function HideDateRangeForReport() {
+    $("#ReportDateFilter").toggle();
+}
 
 function updateFooterTotals(id) {
     var totalQty = 0;
@@ -1456,4 +1459,67 @@ function getCustomerTransactions(c_id) {
         error: function () {
         }
     });
+}
+
+function getSalesOrderReport() {
+    var customer = $("#customer").val();
+    var product = $("#product").val();
+    var daterange = $("#reportrange").val();
+    var type = $("#type").val();
+    var fullhistory = $('input[name="fullhistory"]').prop("checked");
+
+    if (daterange != "") {
+        var data = new FormData();
+        data.append("customer", customer);
+        data.append("product", product);
+        data.append("reportrange", daterange);
+        data.append("type", type);
+        data.append("fullhistory", fullhistory);
+        
+        $.ajax({
+            url: "/SalesOrder/getSalesOrderReport",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                $("#Container").html(response);
+                loadDataTableByIdAndLength("mytable", 10);
+            },
+            error: function () {
+            }
+        });
+    }
+}
+function getInvoiceReport() {
+    var customer = $("#customer").val();
+    var product = $("#product").val();
+    var daterange = $("#reportrange").val();
+    var type = $("#type").val();
+    var fullhistory = $('input[name="fullhistory"]').prop("checked");
+
+    if (daterange != "") {
+        var data = new FormData();
+        data.append("customer", customer);
+        data.append("product", product);
+        data.append("reportrange", daterange);
+        data.append("type", type);
+        data.append("fullhistory", fullhistory);
+        
+        $.ajax({
+            url: "/Invoice/getInvoiceReport",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                $("#Container").html(response);
+                loadDataTableByIdAndLength("mytable", 10);
+            },
+            error: function () {
+            }
+        });
+    }
 }

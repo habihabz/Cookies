@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Cookies.Models;
 using Cookies.Services;
 using System.Diagnostics;
+using System.Data;
 
 namespace Cookies.Controllers
 {
@@ -148,6 +149,39 @@ namespace Cookies.Controllers
             }
             return View(salesOrderDetails);
            
+        }
+
+        public ActionResult SalesOrderReport()
+        {
+            if (getCurrentUser() == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                ViewBag.Products = iproduct.GetProducts();
+                ViewBag.Customers = icustomer.getCustomers();
+                return View();
+            }
+        }
+
+
+        public ActionResult getSalesOrderReport(int customer, int product, string reportrange, string type, string fullhistory)
+        {
+            DataTable dataTable = new DataTable();
+
+            if (!reportrange.Equals("undefined"))
+            {
+                String[] array = reportrange.Split('-');
+
+                DateTime from = DateTime.Parse(array[0]);
+                DateTime to = DateTime.Parse(array[1] + " 11:59:59 PM");
+
+                dataTable = isalesOrder.getSalesOrderReport(customer, product,  from, to, type, fullhistory);
+            }
+
+            return View(dataTable);
+
         }
 
         private User getCurrentUser()
