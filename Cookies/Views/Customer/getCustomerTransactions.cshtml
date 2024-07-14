@@ -8,7 +8,7 @@
         <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
             <div class="card-header text-center">Total Purchased</div>
             <div class="card-body text-center">
-                <h4 class="card-title">@ViewBag.Purchased</h4>
+                <h4 class="card-title">@String.Format(ViewBag.Currency, @ViewBag.Purchased)</h4>
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
         <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
             <div class="card-header text-center">Total Paid</div>
             <div class="card-body text-center">
-                <h4 class="card-title">@ViewBag.Paid</h4>
+                <h4 class="card-title">@String.Format(ViewBag.Currency, @ViewBag.Paid)</h4>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
         <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
             <div class="card-header text-center">To Be Paid</div>
             <div class="card-body text-center">
-                <h4 class="card-title">@ViewBag.ToBePaid</h4>
+                <h4 class="card-title">@String.Format(ViewBag.Currency, @ViewBag.ToBePaid)</h4>
             </div>
         </div>
     </div>
@@ -59,7 +59,19 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    var color = "";
+                    switch(item.cl_acc_type)
+                    {
+                        case "Credit":
+                            color = "bg-success text-white";
+                            break;
+
+                        case "Debit":
+                            color = "bg-danger text-white";
+                            break;
+                    }
+
+                    <tr class="@color">
                         <td>
                             @Html.DisplayFor(modelItem => item.cl_id)
                         </td>

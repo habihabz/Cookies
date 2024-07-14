@@ -33,13 +33,11 @@
                 <input class="form-control" type="number" id="id_qty" />
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="form-group">
                 <button class="btn btn-primary" onclick="AddOrUpdateInvoiceDetail()" style="margin-top:23px;"> <i class="fas fa-save"></i> Save</button>
                 <button class="btn btn-secondary" onclick="clearInvoiceDetailEntry()" style="margin-top:23px;"> <i class="fas fa-eraser"></i> Clear</button>
             </div>
-
         </div>
         <div class="col-md-2">
             <div class="form-group justify-content-end">
@@ -49,7 +47,6 @@
             </div>
         </div>
     </div>
-
 }
 <hr />
 <div class="row">
@@ -76,7 +73,6 @@
                         @if (ViewBag.Invoice != "Y")
                         {
                             <th>
-
                             </th>
                         }
                     </tr>
@@ -140,7 +136,7 @@
                 <tr>
                     <td>Old Balance</td>
                     <td>:</td>
-                    <td><input class="form-control" id="inv_cbp" value="@ViewBag.CBP" type="number" autocomplete="off" disabled /> </td>
+                    <td><input class="form-control" id="inv_cbp" value="@ViewBag.CBP" type="number" autocomplete="off" disabled/></td>
                 </tr>
             }
             <tr>
@@ -157,10 +153,7 @@
                         else
                         {
                             <input class="form-control" id="inv_amount_received" min="0" value="0.00" type="number" autocomplete="off" onkeyup="findNewCustomerBalance();" @dis />
-
                         }
-
-
                     }
                 </td>
             </tr>

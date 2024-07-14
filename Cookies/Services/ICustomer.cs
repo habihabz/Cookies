@@ -1,6 +1,7 @@
 ﻿using Cookies.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,5 +14,6 @@ namespace Cookies.Services
        Customer getCustomer(int id);
        DbResult removeCustomer(int id);
        List<CustomerLedger> getCustomerTransactions(int c_id);
+       DataTable getCustomerLedger(int customer);
     }
 }

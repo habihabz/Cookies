@@ -552,10 +552,10 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.01958in</Top>
-            <Left>1.55431in</Left>
+            <Top>1.03347in</Top>
+            <Left>1.18278in</Left>
             <Height>0.25in</Height>
-            <Width>1.02777in</Width>
+            <Width>1.35764in</Width>
             <ZIndex>1</ZIndex>
             <Style>
               <Border>
@@ -586,76 +586,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.01958in</Top>
-            <Left>2.59597in</Left>
+            <Top>1.03347in</Top>
+            <Left>2.55431in</Left>
             <Height>0.25in</Height>
-            <Width>1.08854in</Width>
+            <Width>1.11631in</Width>
             <ZIndex>2</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-              <rd:FormatSymbolCulture>en-IN</rd:FormatSymbolCulture>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox41">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>Old Balance</Value>
-                    <Style />
-                  </TextRun>
-                </TextRuns>
-                <Style />
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.31125in</Top>
-            <Left>1.55431in</Left>
-            <Height>0.25in</Height>
-            <Width>1.02777in</Width>
-            <ZIndex>3</ZIndex>
-            <Style>
-              <Border>
-                <Style>None</Style>
-              </Border>
-              <PaddingLeft>2pt</PaddingLeft>
-              <PaddingRight>2pt</PaddingRight>
-              <PaddingTop>2pt</PaddingTop>
-              <PaddingBottom>2pt</PaddingBottom>
-            </Style>
-          </Textbox>
-          <Textbox Name="Textbox42">
-            <CanGrow>true</CanGrow>
-            <KeepTogether>true</KeepTogether>
-            <Paragraphs>
-              <Paragraph>
-                <TextRuns>
-                  <TextRun>
-                    <Value>=Parameters!OldBalance.Value</Value>
-                    <Style>
-                      <Format>'₹'0.00;('₹'0.00)</Format>
-                    </Style>
-                  </TextRun>
-                </TextRuns>
-                <Style>
-                  <TextAlign>Right</TextAlign>
-                </Style>
-              </Paragraph>
-            </Paragraphs>
-            <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.31125in</Top>
-            <Left>2.58208in</Left>
-            <Height>0.25in</Height>
-            <Width>1.10243in</Width>
-            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -682,11 +617,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.60292in</Top>
-            <Left>1.55431in</Left>
+            <Top>1.29736in</Top>
+            <Left>1.18278in</Left>
             <Height>0.25in</Height>
-            <Width>1.01388in</Width>
-            <ZIndex>5</ZIndex>
+            <Width>1.35763in</Width>
+            <ZIndex>3</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -716,11 +651,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.60292in</Top>
-            <Left>2.56819in</Left>
+            <Top>1.29736in</Top>
+            <Left>2.5543in</Left>
             <Height>0.25in</Height>
             <Width>1.11632in</Width>
-            <ZIndex>6</ZIndex>
+            <ZIndex>4</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -739,7 +674,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value>New Balance</Value>
+                    <Value>Customer Balance</Value>
                     <Style />
                   </TextRun>
                 </TextRuns>
@@ -747,11 +682,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.89458in</Top>
-            <Left>1.55431in</Left>
+            <Top>1.56125in</Top>
+            <Left>1.18278in</Left>
             <Height>0.25in</Height>
-            <Width>1in</Width>
-            <ZIndex>7</ZIndex>
+            <Width>1.35764in</Width>
+            <ZIndex>5</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -769,7 +704,7 @@
               <Paragraph>
                 <TextRuns>
                   <TextRun>
-                    <Value />
+                    <Value>=Parameters!OldBalance.Value</Value>
                     <Style>
                       <Format>'₹'0.00;('₹'0.00)</Format>
                     </Style>
@@ -781,11 +716,11 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox39</rd:DefaultName>
-            <Top>1.89458in</Top>
-            <Left>2.5682in</Left>
+            <Top>1.56125in</Top>
+            <Left>2.55431in</Left>
             <Height>0.25in</Height>
             <Width>1.11632in</Width>
-            <ZIndex>8</ZIndex>
+            <ZIndex>6</ZIndex>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -806,7 +741,6 @@
         <PageHeader>
           <Height>3.125in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
-          <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
             <Textbox Name="Textbox11">
               <CanGrow>true</CanGrow>

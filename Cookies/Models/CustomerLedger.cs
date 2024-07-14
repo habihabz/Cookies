@@ -26,6 +26,7 @@ namespace Cookies.Models
 
         [Display(Name = "Amount")]
         [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "₹{0:N}")]
         public decimal cl_amount { get; set; }
 
         [Display(Name = "Created by")]

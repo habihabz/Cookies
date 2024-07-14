@@ -1,0 +1,134 @@
+﻿@model IEnumerable<Cookies.Models.InvoiceDetail>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+        .center {
+            text-align: center;
+        }
+        .left {
+            text-align: left !important;
+        }
+        .right {
+            text-align: right !important;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .table {
+            border-collapse: collapse;
+            width: 100%; /* Adjust the width as needed */
+            margin: 0 auto;
+        }
+
+        .table th, .table td {
+           
+            padding: 2px;
+            text-align: center; /* Center-align text within cells */
+        }
+
+        .table th {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <h2 class="center">Cookies Bakes</h2>
+        <h5>Athanikkal, Pulloor Manjeri</h5>
+        <h5>Karuvambram Po,Pin 676123</h5>
+        <hr />
+        <h3>@ViewBag.CustomerName</h3>
+    </div>
+    <hr />
+    <div class="left">
+        <table class="table">
+            <tr>
+                <td class="left">Invoice Number</td>
+                <td class="right">@ViewBag.InvId</td>
+              
+            </tr>
+            <tr>
+                <td class="left">Order Number</td>
+                <td class="right">@ViewBag.OrderNo</td>
+               
+            </tr>
+            <tr>
+                <td class="left">Created On</td>
+                <td class="right">@ViewBag.DateTime</td>
+              
+            </tr>
+        </table>
+    </div>
+    <br />
+    <br />
+    <div class="table-container">
+        <table class="table" border="1">
+            <thead>
+                <tr>
+                    <th style="text-align:start;">@Html.DisplayNameFor(model => model.id_prod_name)</th>
+                    <th>@Html.DisplayNameFor(model => model.id_qty)</th>
+                    <th>@Html.DisplayNameFor(model => model.id_unit_price)</th>
+                    <th>@Html.DisplayNameFor(model => model.id_total_price)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="text-align:start;">@Html.DisplayFor(modelItem => item.id_prod_name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.id_qty)</td>
+                        <td>@Html.DisplayFor(modelItem => item.id_unit_price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.id_total_price)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+    <div class="table-container">
+        <table class="table">
+            <tbody>
+                <tr>
+                   
+                    <td class="right">Total Amount :</td>
+                    <td class="right">@String.Format(ViewBag.Currency, @ViewBag.TotalAmt)@ViewBag.TotalAmt </td>
+                </tr>
+                <tr>
+                   
+                    <td class="right">Old Balance :</td>
+                    <td class="right">@String.Format(ViewBag.Currency, @ViewBag.OldBalance)@ViewBag.OldBalance </td>
+                </tr>
+                <tr>
+                   
+                    <td class="right">Amount Paid :</td>
+                    <td class="right">@String.Format(ViewBag.Currency, @ViewBag.AmtPaid)@ViewBag.AmtPaid</td>
+                </tr>
+                <tr>
+                   
+                    <td class="right">New Balance :</td>
+                    <td class="right">@String.Format(ViewBag.Currency, @ViewBag.NewBalance)@ViewBag.NewBalance</td>
+                </tr>
+            <tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <div class="center">
+        <h4>Thank You</h4>
+        <h4>Visit Again</h4>
+    </div>
+</body>
+</html>

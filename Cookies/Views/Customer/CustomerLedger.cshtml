@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Customer Ledger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active"><a href="/customer/customerLedger">Customer Ledger</a></li>
+    </ol>
+</nav>
+<div class="Pallet-fluid">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Customer</label>
+                        <select id="customer" class="form-control" asp-items="@(new SelectList(ViewBag.Customers,"c_id","c_name"))">
+                            <option value="0">Select Customer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group bottom" align="justify">
+                        <input type="button" onclick="getCustomerLedger();" style="margin-top:25px" class="btn btn-primary" value="Search" />
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12" id="Container">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

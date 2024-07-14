@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Diagnostics;
+using System.Data.Common;
 
 namespace Cookies.Repository
 {
@@ -56,6 +59,42 @@ namespace Cookies.Repository
             var _c_id = new SqlParameter("c_id", c_id + "");
             var customerLedgers = db.CustomerLedgers.FromSqlRaw<CustomerLedger>("EXECUTE dbo.getCustomerTransactions @c_id", _c_id).ToList();
             return customerLedgers;
+        }
+
+        public DataTable getCustomerLedger(int customer)
+        {
+            DataTable dt = new DataTable();
+            var conn = db.Database.GetDbConnection();
+            try
+            {
+
+                conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = @"[dbo].[getCustomerLedger]";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("customer", customer + ""));
+                    command.CommandTimeout = 250;
+                    DbDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
+                    reader.Dispose();
+                }
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.Message + " " + ex.InnerException);
+                conn.Close();
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return dt;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $("#DateFilter").hide();
+    $("#ProductFilter").hide();
     $("#rq_cre_by").select2();
     $("#rq_dep_id").select2();
     $("#rq_cre_for").select2();
@@ -10,6 +11,8 @@
     $("#inv_product").select2();
     $("#id_prod_id").select2();
     $("#customer").select2();
+    $("#product").select2();
+    $("#type").select2();
   
     $('#saveMenu').click(function () {
       
@@ -1439,6 +1442,16 @@ function printInvoice(inv_id) {
             }, 500); // Adjust delay as needed
         });
 }
+//function ReprintInvoice(inv_id) {
+//    fetch("/Print/ReprintInvoice?id=" + inv_id + "")
+//        .then(response => console.log(response)
+//        );
+//}
+function ReprintInvoice(inv_id) {
+    fetch("/Print/ExecuteProgram?id=" + inv_id + "")
+        .then(response => console.log(response)
+        );
+}
 
 function getCustomerTransactions(c_id) {
     var data = new FormData();
@@ -1459,6 +1472,30 @@ function getCustomerTransactions(c_id) {
         error: function () {
         }
     });
+}
+function getCustomerLedger() {
+    var customer = $("#customer").val();
+    if (customer != 0) {
+        var data = new FormData();
+        data.append("customer", customer);
+        $.ajax({
+            url: "/Customer/getCustomerLedger",
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function (response) {
+                $("#Container").html(response);
+                loadDataTableByIdAndLength("mytable", 25);
+            },
+            error: function () {
+            }
+        });
+    }
+    else {
+        alert("Please Select Customer!!");
+    }
 }
 
 function getSalesOrderReport() {
@@ -1523,3 +1560,14 @@ function getInvoiceReport() {
         });
     }
 }
+
+
+function onChangeReportType() {
+    var type = $("#type").val();
+    if (type == "Product") {
+        $("#ProductFilter").show();
+    } else {
+        $("#ProductFilter").hide();
+    }
+}
+

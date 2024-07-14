@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Cookies.Models;
 using Cookies.Services;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace Cookies.Controllers
 {
@@ -15,12 +17,17 @@ namespace Cookies.Controllers
         private readonly IRole irole;
         private readonly IMenu imenu;
         private readonly ICustomer icustomer;
-        public CustomerController(IRole _irole,IMenu _imenu, ICustomer _icustomer)
+        private readonly IConfiguration configuration;
+     
+        public CustomerController(IRole _irole,IMenu _imenu, ICustomer _icustomer, IConfiguration configuration)
         {
             irole = _irole;
             imenu = _imenu;
             icustomer = _icustomer;
+            Configuration = configuration;
+            
         }
+        public IConfiguration Configuration { get; }
         // GET: Role
         public ActionResult Index()
         {
@@ -48,8 +55,6 @@ namespace Cookies.Controllers
             }
             return View(customers);
         }
-
-
 
         public DbResult createOrEditCustomer(Customer customer)
         {
@@ -97,17 +102,40 @@ namespace Cookies.Controllers
             List<CustomerLedger> customerLedgers = new List<CustomerLedger>();
 
             customerLedgers = icustomer.getCustomerTransactions(c_id);
-
+            var currency = Configuration.GetConnectionString("CurrencyFormat");
             var Purchased = customerLedgers.Where(x => x.cl_acc_type == "Debit").Sum(x => x.cl_amount);
             var Paid = customerLedgers.Where(x => x.cl_acc_type == "Credit").Sum(x => x.cl_amount);
             var ToBePaid = (Purchased-Paid);
             ViewBag.Purchased= Purchased;
             ViewBag.Paid= Paid;
             ViewBag.ToBePaid= ToBePaid;
-
+            ViewBag.Currency = currency;
             return View(customerLedgers);
         }
 
+
+        public ActionResult customerLedger()
+        {
+            if (getCurrentUser() == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                ViewBag.Customers = icustomer.getCustomers();
+                return View();
+            }
+        }
+
+
+        public ActionResult getCustomerLedger(int customer)
+        {
+            DataTable dataTable = new DataTable();
+
+            dataTable = icustomer.getCustomerLedger(customer);
+
+            return View(dataTable);
+        }
 
 
         private User getCurrentUser()

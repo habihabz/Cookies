@@ -9,6 +9,7 @@ using Cookies.Models;
 using Cookies.Services;
 using System.Diagnostics;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace Cookies.Controllers
 {
@@ -21,8 +22,9 @@ namespace Cookies.Controllers
         private readonly ISalesOrder isalesOrder;
         private readonly ICustomer icustomer;
         private readonly IInvoice iinvoice;
-  
-        public InvoiceController(IRole _irole,IMenu _imenu, IProduct _iproduct, IPrice _iprice, ISalesOrder _isalesOrder, ICustomer _icustomer, IInvoice _iinvoice)
+        private readonly IConfiguration configuration;
+
+        public InvoiceController(IRole _irole,IMenu _imenu, IProduct _iproduct, IPrice _iprice, ISalesOrder _isalesOrder, ICustomer _icustomer, IInvoice _iinvoice, IConfiguration configuration)
         {
             irole = _irole;
             imenu = _imenu;
@@ -31,7 +33,9 @@ namespace Cookies.Controllers
             isalesOrder = _isalesOrder;
             icustomer = _icustomer;
             iinvoice = _iinvoice;
+            Configuration = configuration;
         }
+        public IConfiguration Configuration { get; }
         // GET: Role
         public ActionResult Index()
         {
@@ -99,12 +103,14 @@ namespace Cookies.Controllers
                 Invoice invoice = iinvoice.GetInvoice(inv_id);
                 invoicedetails = iinvoice.getInvoiceDetails(inv_id);
                 Customer customer = icustomer.getCustomer(inv_customer);
+                var currency = Configuration.GetConnectionString("Currency");
                 ViewBag.Customers = icustomer.getCustomers();
                 ViewBag.Products = iproduct.GetProducts();
                 ViewBag.CBP = customer.c_balance_payable;
                 ViewBag.TotalPrice = invoicedetails.Select(x => x.id_total_price).Sum();
                 ViewBag.Invoice = invoice.inv_is_posted_yn ?? "N";
                 ViewBag.AmountPaid = invoice.inv_paid_amt;
+                ViewBag.Currency = currency;
             }
             return View(invoicedetails);
         }
@@ -169,6 +175,25 @@ namespace Cookies.Controllers
 
         }
 
+
+        public ActionResult getPrintViewOfInvoice(int inv_id)
+        {
+            var currency = Configuration.GetConnectionString("Currency");
+            Invoice invoice = iinvoice.GetInvoice(inv_id);
+            var invoicedetails = iinvoice.getInvoiceDetails(inv_id);
+            Customer customer = icustomer.getCustomer(invoice.inv_customer ?? 0);
+            ViewBag.InvId = invoice.inv_id;
+            ViewBag.OrderNo = invoice.inv_order_no;
+            ViewBag.DateTime = invoice.inv_cre_date;
+            ViewBag.CustomerName = invoice.inv_customer_name;
+            ViewBag.OldBalance = customer.c_balance_payable;
+            ViewBag.AmtPaid = invoice.inv_paid_amt;
+            var totalamt = invoicedetails.Sum(x => x.id_total_price);
+            ViewBag.TotalAmt = totalamt;
+            ViewBag.NewBalance = (customer.c_balance_payable + totalamt ) - invoice.inv_paid_amt ?? 0 ;
+            ViewBag.Currency = currency;
+            return View(invoicedetails);
+        }
 
         private User getCurrentUser()
         {
